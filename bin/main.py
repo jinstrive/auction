@@ -117,7 +117,7 @@ def login_return(user_id):
     sessionid = generate_sessionid(user_id)
     web.setcookie('sessionid', sessionid, path='/')
     cookie_redirect_url = web.cookies().get('current_page')
-    redirect_url = cookie_redirect_url if cookie_redirect_url else '/item/569faf0ca26cef688bbd9353'
+    redirect_url = cookie_redirect_url if cookie_redirect_url else '/auction/item/56a0dc0d35e9d494bcb25b69'
     raise web.redirect(redirect_url)
 
 
