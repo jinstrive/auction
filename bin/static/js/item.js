@@ -7,7 +7,7 @@ function auction(add_price) {
     console.log(post_data);
     $.ajax({ 
         type: 'POST',
-        url: "/auction",
+        url: "/auction/auction",
         data: post_data,
         success: function(ret){
             console.log(ret);
@@ -16,7 +16,7 @@ function auction(add_price) {
             } else {
             	if (ret.respcd == '2002') {
             		setCookie("current_page", window.location.href, 10);
-            		window.location.href="/login";
+            		window.location.href="/auction/login";
             	};
                 utils.tips(ret.respmsg);
             }

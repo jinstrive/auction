@@ -32,7 +32,7 @@ function goBack() {
 }
 
 function go_iwant() {
-	window.location.href="/iwant";
+	window.location.href="/auction/iwant";
 }
 
 function setCookie(cname, cvalue, exdays) {
