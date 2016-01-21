@@ -4,7 +4,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import web, time
 import pymongo
 from conf.settings import STATIC_URL, MONGO_REPLICA_SET, SERVER_HOT, redis_conf, REDIS_AUCTION_PREFIX, \
-    SESSION_PREFIX, COOKIE_DOMAIN, MongoConf
+    SESSION_PREFIX, COOKIE_DOMAIN, MongoConf, REDIS_PV_PREFIX
 from logger import initlog
 import types
 from response.resp import success, error, QFRET
@@ -208,8 +208,9 @@ class Statistics:
     def POST(self):
         data = web.input()
         pname = data.get('pname')
-        pv_obj = RedisString(REDIS_AUCTION_PREFIX % pname, redis_client)
-        pv_obj.incrby()
+        pv_obj = RedisString(REDIS_PV_PREFIX % pname, redis_client)
+        num = pv_obj.incrby()
+        return success({'num': num})
 
 
 class Auction:
