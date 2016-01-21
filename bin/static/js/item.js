@@ -33,5 +33,6 @@ $(function(){
     	e.preventDefault();
     	auction(100);
     });
-    statistics('item');
+    var item_id = $("#item-id").val();
+    statistics('item:' + item_id);
 });
