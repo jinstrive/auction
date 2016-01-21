@@ -3,31 +3,27 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 	<link rel="stylesheet" href="http://7xnvhf.com1.z0.glb.clouddn.com/bootstrap.css">
-	<link rel="stylesheet" href="../static/css/common.css">
-	<link rel="stylesheet" href="../static/css/reg.css">
+	<link rel="stylesheet" href="$static/css/common.css">
+	<link rel="stylesheet" href="$static/css/reg.css">
 	<script src="http://7xnvhf.com1.z0.glb.clouddn.com/jquery.js"></script>
 	<script src="http://7xnvhf.com1.z0.glb.clouddn.com/bootstrap.js"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-	<title>注册</title>
+	<title>登入</title>
 </head>
 <body>
 	<div class="container">
-		<div class="reg-form">
-			<form>
+		<div class="login-form">
+			<form action="/login" method="post">
 			  <div class="form-group">
 			    <label for="exampleInputEmail1">邮件地址</label>
-			    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="邮箱是 拍卖成功，联系您的唯一方式。">
-			  </div>
-			  <div class="form-group">
-			    <label for="nicknameInput">昵称</label>
-			    <input type="nickname" class="form-control" id="nicknameInput" placeholder="昵称 将显示给卖家">
+			    <input type="email" name="email" class="form-control" id="exampleInputEmail1" placeholder="请输入您注册是的邮箱地址">
 			  </div>
 			  <div class="form-group">
 			    <label for="exampleInputPassword1">密码</label>
-			    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="登入密码">
+			    <input type="password" name="passwd" class="form-control" id="exampleInputPassword1" placeholder="登入密码">
 			  </div>
-			  <button type="submit" class="btn btn-success btn-block">提交</button>
+			  <input type="submit" class="btn btn-success btn-block" value="登入" />
 			</form>
 		</div>
 	</div>

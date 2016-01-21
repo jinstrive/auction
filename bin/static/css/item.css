@@ -18,16 +18,17 @@
 	font-size: 1.3rem;
 	color: #000000;
 	padding-left: 1em;
-	line-height: 3rem;
+	line-height: 2rem;
 }
 .rprice {
-	margin-top: 0.5rem;
 	float: right;
 	overflow: hidden;
 	font-size: 3rem;
 	color: #E6433B;
 	padding-right: 1em;
 	line-height: 3rem;
+	clear: both;
+	margin-bottom: 1rem;
 }
 .item_descr {
 	clear: both;
@@ -57,4 +58,10 @@
 .iwant a {
 	color: #000000;
 	font-size: 2rem;
+}
+
+#tips {
+	height: 100%;
+	margin: 6em auto;
+	display: none;
 }

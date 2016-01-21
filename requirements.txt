@@ -1,0 +1,7 @@
+redis
+simplejson
+supervisor
+web.py
+pymongo==2.8.0
+gevent
+redis
