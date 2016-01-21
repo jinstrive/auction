@@ -1,5 +1,5 @@
 # -*- coding:utf-8 -*-
-STATIC_URL = '/static'
+STATIC_URL = '/auction/static'
 
 MONGO_REPLICA_SET = {
     'PRIMARY': ('172.100.102.163', '27019'),
@@ -12,14 +12,14 @@ MONGO_REPLICA_SET = {
 
 
 class MongoConf:
-    host = '172.100.102.163'
-    port = 27018
+    host = '127.0.0.1'
+    port = 27011
 
 SERVER_HOT = True
 
 
 class redis_conf:
-    host = '172.100.102.101'
+    host = '127.0.0.1'
     port = 6379
     db = 8
 

@@ -27,12 +27,12 @@ log = initlog({
 }, backup_count=0, console=True)
 
 urls = (
-    '/ping', 'Ping',
-    '/item/(.+)', 'Item',
-    '/auction', 'Auction',
-    '/reg', 'Register',
-    '/login', 'Login',
-    '/iwant', 'Iwant',
+    '/auction/ping', 'Ping',
+    '/auction/item/(.+)', 'Item',
+    '/auction/auction', 'Auction',
+    '/auction/reg', 'Register',
+    '/auction/login', 'Login',
+    '/auction/iwant', 'Iwant',
 )
 
 
