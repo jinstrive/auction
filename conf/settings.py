@@ -9,6 +9,12 @@ MONGO_REPLICA_SET = {
     'ARBITER': ('172.100.102.163', '27017'),
     'SET_NAME': 'qfpay',
 }
+
+
+class MongoConf:
+    host = '172.100.102.163'
+    port = 27018
+
 SERVER_HOT = True
 
 

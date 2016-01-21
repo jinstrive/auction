@@ -4,7 +4,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import web, time
 import pymongo
 from conf.settings import STATIC_URL, MONGO_REPLICA_SET, SERVER_HOT, redis_conf, REDIS_AUCTION_PREFIX, \
-    SESSION_PREFIX, COOKIE_DOMAIN
+    SESSION_PREFIX, COOKIE_DOMAIN, MongoConf
 from logger import initlog
 import types
 from response.resp import success, error, QFRET
@@ -32,6 +32,7 @@ urls = (
     '/auction', 'Auction',
     '/reg', 'Register',
     '/login', 'Login',
+    '/iwant', 'Iwant',
 )
 
 
@@ -39,18 +40,20 @@ global_args = {
     'static': STATIC_URL,
 }
 
-def get_replica_set_client(conf):
-    seeds = [conf['PRIMARY']] + conf['SECONDARY']
-    rs_client = pymongo.MongoReplicaSetClient(','.join([':'.join(addr) for addr in seeds]),
-                                              document_class=dict,
-                                              replicaSet=conf['SET_NAME'],
-                                              use_greenlets=True,
-                                              secondary_acceptable_latency_ms=100,
-                                              read_preference=pymongo.ReadPreference.SECONDARY_PREFERRED)
+
+def get_replica_set_client():
+    rs_client = pymongo.MongoClient(host=MongoConf.host, port=MongoConf.port)
+    # seeds = [conf['PRIMARY']] + conf['SECONDARY']
+    # rs_client = pymongo.MongoReplicaSetClient(','.join([':'.join(addr) for addr in seeds]),
+    #                                           document_class=dict,
+    #                                           replicaSet=conf['SET_NAME'],
+    #                                           use_greenlets=True,
+    #                                           secondary_acceptable_latency_ms=100,
+    #                                           read_preference=pymongo.ReadPreference.SECONDARY_PREFERRED)
     return rs_client
 
 
-mongo_client = get_replica_set_client(MONGO_REPLICA_SET)
+mongo_client = get_replica_set_client()
 mongo_auction = mongo_client.auction
 redis_client = redis.Redis(host=redis_conf.host, port=redis_conf.port, db=redis_conf.db)
 
@@ -95,28 +98,35 @@ class Register:
         if not email or not passwd or not nickname:
             return render.error('注册信息不全，请重新输入')
         hpass = hashlib.sha1(passwd).hexdigest()
-        exist_user = mongo_auction.user.find_one({'$or': {'nickname': nickname, 'email': email}})
+        exist_user = mongo_auction.user.find_one({'$or': [{'nickname': nickname}, {'email': email}]})
         if exist_user:
             if exist_user.get('email') == email:
                 return render.error('注册邮箱已存在，请重新注册')
             else:
                 return render.error('注册昵称已存在，请重新注册')
-        user = mongo_auction.user.insert(dict(
+        user_id = mongo_auction.user.insert(dict(
             email=email,
             nickname=nickname,
             passwd=hpass,
             created=datetime.datetime.now(),
         ))
-        user_id = user.get('_id')
-        return login_return(user_id)
+        return login_return(str(user_id))
 
 
 def login_return(user_id):
     sessionid = generate_sessionid(user_id)
-    web.setcookie('sessionid', sessionid, domain=COOKIE_DOMAIN, path='/')
+    web.setcookie('sessionid', sessionid, path='/')
     cookie_redirect_url = web.cookies().get('current_page')
-    redirect_url = cookie_redirect_url if not cookie_redirect_url else '/item/1'
+    redirect_url = cookie_redirect_url if cookie_redirect_url else '/item/569faf0ca26cef688bbd9353'
     raise web.redirect(redirect_url)
+
+
+class Iwant:
+    """
+    我也要拍卖
+    """
+    def GET(self):
+        return render.iwant()
 
 
 class Login:
@@ -162,6 +172,13 @@ class Item:
         item_dict = mongo_auction.item.find_one({'_id': ObjectId(item_id)})
         if not item_dict:
             return render.error('没有找到拍卖商品')
+        ritem_price = RedisString(REDIS_AUCTION_PREFIX % item_id, redis_client)
+        current_price = ritem_price.get_number()
+        if not current_price:
+            current_price = int(item_dict.get('init_price', 10))
+        item_dict['current_price'] = current_price
+        ritem_price.set(current_price)
+
         # print item_dict
         # print type(item_dict)
         return render.item(item_dict)

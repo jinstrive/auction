@@ -18,3 +18,13 @@
 	bottom: 3em;
 	width: 90%;
 }
+
+.reg-div {
+	margin-top: 2em;
+	text-align: center;
+}
+
+.reg-div a {
+	color: #8B9C9C;
+	font-size: 1rem;
+}

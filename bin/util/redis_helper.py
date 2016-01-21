@@ -22,7 +22,7 @@ class RedisString(RedisObject):
         num = self.redis_instance.get(self._key)
         if not num:
             num = 0
-        return num
+        return int(num)
 
 
 class RedisHash(RedisObject):
