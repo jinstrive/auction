@@ -13,9 +13,7 @@
 }
 
 .footer {
-	position: absolute;
-	bottom: 3em;
-	width: 90%;
+	margin-top: 3em;
 }
 
 .reg-div {

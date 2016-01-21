@@ -52,3 +52,15 @@ function getCookie(cname) {
     }
     return "";
 }
+
+function statistics(pname) {
+    var post_data = {"pname": pname}
+    $.ajax({ 
+        type: 'POST',
+        url: "/auction/statistics",
+        data: post_data,
+        success: function(ret){
+            console.log(ret);
+        }
+    });
+}

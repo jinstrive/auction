@@ -33,6 +33,7 @@ urls = (
     '/auction/reg', 'Register',
     '/auction/login', 'Login',
     '/auction/iwant', 'Iwant',
+    '/auction/statistics', 'Statistics',
 )
 
 
@@ -198,6 +199,17 @@ def check_user(func):
         return func(self, *args, **kwargs)
 
     return _
+
+
+class Statistics:
+    """
+    统计
+    """
+    def POST(self):
+        data = web.input()
+        pname = data.get('pname')
+        pv_obj = RedisString(REDIS_AUCTION_PREFIX % pname, redis_client)
+        pv_obj.incrby()
 
 
 class Auction:

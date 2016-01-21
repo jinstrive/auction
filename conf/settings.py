@@ -1,5 +1,6 @@
 # -*- coding:utf-8 -*-
 STATIC_URL = '/auction/static'
+# STATIC_URL = '/static'
 
 MONGO_REPLICA_SET = {
     'PRIMARY': ('172.100.102.163', '27019'),
@@ -24,6 +25,7 @@ class redis_conf:
     db = 8
 
 REDIS_AUCTION_PREFIX = 'AUCTION_ITEM:%s'
+REDIS_PV_PREFIX = 'AUCTION_PV:%s'
 SESSION_PREFIX = 'AUCTION_SESSION:%s'
 
 COOKIE_DOMAIN = '/'

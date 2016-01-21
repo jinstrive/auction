@@ -33,4 +33,5 @@ $(function(){
     	e.preventDefault();
     	auction(100);
     });
+    statistics('item');
 });
