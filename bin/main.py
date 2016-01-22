@@ -173,6 +173,11 @@ class Item:
         item_dict = mongo_auction.item.find_one({'_id': ObjectId(item_id)})
         if not item_dict:
             return render.error('没有找到拍卖商品')
+        status = item_dict.get('status', 1)
+        if status == 2:
+            return render.error('对不起，商品已经 拍定 卖出啦')
+        if status == 0:
+            return render.error('对不起，商品被卖家撤回，不再拍卖')
         ritem_price = RedisString(REDIS_AUCTION_PREFIX % item_id, redis_client)
         current_price = ritem_price.get_number()
         if not current_price:
